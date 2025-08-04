@@ -4,8 +4,12 @@ export const API_CONFIG = {
     baseURL: 'http://localhost:3001',
   },
   production: {
-    baseURL: 'http://localhost:3001', // Users will run backend locally
-    // Alternative: You could deploy backend to Vercel/Railway and use that URL
+    // Option 1: Use hosted backend (update with your Railway/Vercel URL)
+    baseURL: process.env.VITE_API_URL || 'http://localhost:3001',
+    // Option 2: Use Railway URL when available
+    // baseURL: 'https://your-app-name.railway.app',
+    // Option 3: Use Vercel URL when available  
+    // baseURL: 'https://your-app-name.vercel.app',
   }
 };
 

@@ -15,6 +15,7 @@
     "dev:full:refactored": "concurrently \"npm run dev\" \"npm run dev:server:refactored\"",
     "start": "npm run build && concurrently \"npm run preview\" \"npm run server\"",
     "deploy": "npm run build && gh-pages -d dist",
+    "deploy:fullstack": "./scripts/deploy-fullstack.sh",
     "predeploy": "npm run build"
   },
   "dependencies": {

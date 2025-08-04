@@ -3,21 +3,32 @@
     <div class="banner-content">
       <div class="banner-icon">⚠️</div>
       <div class="banner-text">
-        <h4>Running from GitHub Pages</h4>
+        <h4>Backend Required</h4>
         <p>
-          To use this app, you need to run the backend server locally. 
+          This app needs a backend server. You can either run it locally or use a hosted version.
           <a href="#" @click="showInstructions = !showInstructions" class="toggle-link">
-            {{ showInstructions ? 'Hide' : 'Show' }} instructions
+            {{ showInstructions ? 'Hide' : 'Show' }} options
           </a>
         </p>
         <div v-if="showInstructions" class="instructions">
-          <ol>
-            <li>Clone the repository: <code>git clone https://github.com/FreeStab/Anki2Quizlet.git</code></li>
-            <li>Navigate to the project: <code>cd Anki2Quizlet</code></li>
-            <li>Install dependencies: <code>npm install</code></li>
-            <li>Start the backend: <code>npm run server</code></li>
-            <li>The backend will run on <code>http://localhost:3001</code></li>
-          </ol>
+          <div class="option">
+            <h5>📱 Option 1: Quick Local Setup</h5>
+            <ol>
+              <li>Clone: <code>git clone https://github.com/FreeStab/Anki2Quizlet.git</code></li>
+              <li>Install: <code>cd Anki2Quizlet && npm install</code></li>
+              <li>Start: <code>npm run server</code></li>
+            </ol>
+          </div>
+          <div class="option">
+            <h5>☁️ Option 2: Deploy Backend (Recommended)</h5>
+            <p>For a permanent solution, deploy the backend to:</p>
+            <ul>
+              <li><strong>Railway:</strong> Free tier, easy setup</li>
+              <li><strong>Vercel:</strong> Serverless functions</li>
+              <li><strong>Render:</strong> Free alternative</li>
+            </ul>
+            <p>See <a href="https://github.com/FreeStab/Anki2Quizlet/blob/main/BACKEND-DEPLOYMENT.md" target="_blank">deployment guide</a></p>
+          </div>
           <p class="note">
             💡 <strong>Tip:</strong> Keep the backend running while using this web app.
           </p>
@@ -127,6 +138,40 @@ onMounted(() => {
   font-size: 0.9em;
   color: #e83e8c;
   border: 1px solid #dee2e6;
+}
+
+.option {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+}
+
+.option h5 {
+  margin: 0 0 0.5rem 0;
+  color: #495057;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.option ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.option li {
+  margin-bottom: 0.3rem;
+  color: #495057;
+}
+
+.option a {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+.option a:hover {
+  color: #004499;
 }
 
 .note {
