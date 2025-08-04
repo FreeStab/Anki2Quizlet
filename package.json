@@ -1,0 +1,36 @@
+{
+  "name": "anki-to-quizlet",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/index.js",
+    "dev:server": "nodemon server/index.js",
+    "dev:full": "concurrently \"npm run dev\" \"npm run dev:server\"",
+    "start": "npm run build && concurrently \"npm run preview\" \"npm run server\""
+  },
+  "dependencies": {
+    "@vueuse/core": "^13.6.0",
+    "axios": "^1.11.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jszip": "^3.10.1",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "papaparse": "^5.5.3",
+    "sqlite3": "^5.1.7",
+    "vite-plugin-pwa": "^1.0.2",
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10",
+    "vite": "^7.0.4"
+  }
+}
