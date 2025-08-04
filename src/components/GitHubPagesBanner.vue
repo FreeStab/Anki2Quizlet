@@ -12,7 +12,7 @@
         </p>
         <div v-if="showInstructions" class="instructions">
           <ol>
-            <li>Clone the repository: <code>git clone https://github.com/your-username/Anki2Quizlet.git</code></li>
+            <li>Clone the repository: <code>git clone https://github.com/FreeStab/Anki2Quizlet.git</code></li>
             <li>Navigate to the project: <code>cd Anki2Quizlet</code></li>
             <li>Install dependencies: <code>npm install</code></li>
             <li>Start the backend: <code>npm run server</code></li>

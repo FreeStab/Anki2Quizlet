@@ -4,7 +4,7 @@ A Progressive Web App (PWA) that converts Anki deck files (.apkg) to Quizlet-com
 
 ## 🌐 Live Demo
 
-**Frontend**: [https://your-username.github.io/Anki2Quizlet/](https://your-username.github.io/Anki2Quizlet/)
+**Frontend**: [https://FreeStab.github.io/Anki2Quizlet/](https://FreeStab.github.io/Anki2Quizlet/)
 
 > **Note**: To use the live demo, you'll need to run the backend locally. See [Quick Start for Users](#quick-start-for-users) below.
 
@@ -28,7 +28,7 @@ If you just want to use the app:
 1. **Visit the live demo** (link above)
 2. **Run the backend locally:**
    ```bash
-   git clone https://github.com/your-username/Anki2Quizlet.git
+   git clone https://github.com/FreeStab/Anki2Quizlet.git
    cd Anki2Quizlet
    npm install
    npm run server
@@ -83,6 +83,7 @@ This will start both the frontend (Vite) and backend (Express) servers concurren
 The frontend can be deployed to GitHub Pages while users run the backend locally:
 
 1. **Automatic deployment** (recommended):
+
    - Push to `main` branch
    - GitHub Actions will automatically build and deploy
 
@@ -96,6 +97,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 ### Full-Stack Deployment
 
 To deploy both frontend and backend:
+
 - **Frontend**: GitHub Pages, Netlify, or Vercel
 - **Backend**: Railway, Render, Heroku, or Vercel Functions
 
