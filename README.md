@@ -1,6 +1,12 @@
 # Anki to Quizlet Converter
 
-A Progressive Web App (PWA) that converts Anki deck files (.apkg) to Quizlet-compatible CSV format.
+A Progressive Web App (PWA) that converts Anki deck files (.apkg) to Quizlet-compatible Word document format.
+
+## 🌐 Live Demo
+
+**Frontend**: [https://your-username.github.io/Anki2Quizlet/](https://your-username.github.io/Anki2Quizlet/)
+
+> **Note**: To use the live demo, you'll need to run the backend locally. See [Quick Start for Users](#quick-start-for-users) below.
 
 ## Features
 
@@ -8,13 +14,28 @@ A Progressive Web App (PWA) that converts Anki deck files (.apkg) to Quizlet-com
 - 🔄 **Real-time Processing** - Convert .apkg files to Quizlet format
 - 👀 **Preview Cards** - Review converted cards before export
 - 📊 **Conversion Statistics** - Track processing results
-- 💾 **CSV Export** - Download Quizlet-compatible files
+- � **Word Document Export** - Download Quizlet-compatible .docx files
 - 📱 **PWA Support** - Works offline and can be installed
 - 🎯 **File Validation** - Supports .apkg files up to 100MB
 - 🔍 **Search & Filter** - Find specific cards in your deck
 - 📈 **Responsive Design** - Works on desktop and mobile
+- 🚀 **GitHub Pages Ready** - Frontend can be deployed to GitHub Pages
 
-## Getting Started
+## 🚀 Quick Start for Users
+
+If you just want to use the app:
+
+1. **Visit the live demo** (link above)
+2. **Run the backend locally:**
+   ```bash
+   git clone https://github.com/your-username/Anki2Quizlet.git
+   cd Anki2Quizlet
+   npm install
+   npm run server
+   ```
+3. **Upload your .apkg files** and convert them!
+
+## 🛠️ Development Setup
 
 ### Prerequisites
 
@@ -24,17 +45,20 @@ A Progressive Web App (PWA) that converts Anki deck files (.apkg) to Quizlet-com
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
-cd anki-to-quizlet
+cd Anki2Quizlet
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev:full
 ```
@@ -49,16 +73,42 @@ This will start both the frontend (Vite) and backend (Express) servers concurren
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run server` - Start production backend server
-- `npm start` - Build and start production servers
+- `npm run start` - Build and start production servers
+- `npm run deploy` - Deploy frontend to GitHub Pages
+
+## 🚀 Deployment
+
+### GitHub Pages (Frontend Only)
+
+The frontend can be deployed to GitHub Pages while users run the backend locally:
+
+1. **Automatic deployment** (recommended):
+   - Push to `main` branch
+   - GitHub Actions will automatically build and deploy
+
+2. **Manual deployment**:
+   ```bash
+   npm run deploy
+   ```
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+
+### Full-Stack Deployment
+
+To deploy both frontend and backend:
+- **Frontend**: GitHub Pages, Netlify, or Vercel
+- **Backend**: Railway, Render, Heroku, or Vercel Functions
 
 ## How to Use
 
 1. **Upload Your Anki Deck**
+
    - Drag and drop your .apkg file onto the upload area
    - Or click "Browse Files" to select a file
    - Supported file size: up to 100MB
 
 2. **Review Conversion Results**
+
    - View conversion statistics
    - Preview converted cards
    - Use search to find specific cards
@@ -78,6 +128,7 @@ This will start both the frontend (Vite) and backend (Express) servers concurren
 ## Technical Stack
 
 ### Frontend
+
 - **Vue.js 3** - Progressive JavaScript framework
 - **Vite** - Fast build tool and development server
 - **VueUse** - Collection of Vue composition utilities
@@ -85,6 +136,7 @@ This will start both the frontend (Vite) and backend (Express) servers concurren
 - **Vite PWA Plugin** - Progressive Web App functionality
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express** - Web application framework
 - **SQLite3** - Database for parsing .apkg files
@@ -138,10 +190,12 @@ This will start both the frontend (Vite) and backend (Express) servers concurren
 ### Common Issues
 
 1. **Large File Processing**
+
    - Files over 100MB are not supported
    - Complex card formats may take longer to process
 
 2. **Conversion Errors**
+
    - Ensure .apkg file is not corrupted
    - Some custom Anki templates may not convert perfectly
 

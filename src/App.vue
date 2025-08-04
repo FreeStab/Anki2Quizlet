@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import FileUpload from './components/FileUpload.vue'
 import CardPreview from './components/CardPreview.vue'
 import ConversionStats from './components/ConversionStats.vue'
+import GitHubPagesBanner from './components/GitHubPagesBanner.vue'
 
 const cards = ref([])
 const isProcessing = ref(false)
@@ -32,12 +33,14 @@ onMounted(() => {
 
 <template>
   <div id="app">
+    <GitHubPagesBanner />
+    
     <header class="app-header">
       <h1>
         <span class="logo-icon">🔄</span>
         Anki to Quizlet Converter
       </h1>
-      <p class="subtitle">Convert your Anki decks to Quizlet-compatible format</p>
+      <p class="subtitle">Convert your Anki decks to Quizlet-compatible Word documents</p>
     </header>
 
     <main class="app-main">

@@ -1,113 +1,117 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
-import { useDropZone } from '@vueuse/core'
-import axios from 'axios'
+import { ref } from "vue";
+import { useDropZone } from "@vueuse/core";
+import axios from "axios";
+import { createApiUrl } from "../config/api.js";
 
-const emit = defineEmits(['file-processed', 'processing-state'])
+const emit = defineEmits(["file-processed", "processing-state"]);
 
 const props = defineProps({
-  isProcessing: Boolean
-})
+  isProcessing: Boolean,
+});
 
-const dropZoneRef = ref()
-const selectedFile = ref(null)
-const dragOver = ref(false)
-const error = ref('')
-const uploadProgress = ref(0)
+const dropZoneRef = ref();
+const selectedFile = ref(null);
+const dragOver = ref(false);
+const error = ref("");
+const uploadProgress = ref(0);
 
 const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop: handleDrop,
-  onEnter: () => { dragOver.value = true },
-  onLeave: () => { dragOver.value = false }
-})
+  onEnter: () => {
+    dragOver.value = true;
+  },
+  onLeave: () => {
+    dragOver.value = false;
+  },
+});
 
 function handleDrop(files) {
-  dragOver.value = false
+  dragOver.value = false;
   if (files && files.length > 0) {
-    handleFileSelect(files[0])
+    handleFileSelect(files[0]);
   }
 }
 
 function handleFileInput(event) {
-  const file = event.target.files[0]
+  const file = event.target.files[0];
   if (file) {
-    handleFileSelect(file)
+    handleFileSelect(file);
   }
 }
 
 function handleFileSelect(file) {
-  error.value = ''
-  
+  error.value = "";
+
   // Validate file type
-  if (!file.name.toLowerCase().endsWith('.apkg')) {
-    error.value = 'Please select a valid .apkg file'
-    return
+  if (!file.name.toLowerCase().endsWith(".apkg")) {
+    error.value = "Please select a valid .apkg file";
+    return;
   }
-  
+
   // Validate file size (100MB limit)
-  const maxSize = 100 * 1024 * 1024
+  const maxSize = 100 * 1024 * 1024;
   if (file.size > maxSize) {
-    error.value = 'File size must be less than 100MB'
-    return
+    error.value = "File size must be less than 100MB";
+    return;
   }
-  
-  selectedFile.value = file
-  processFile(file)
+
+  selectedFile.value = file;
+  processFile(file);
 }
 
 async function processFile(file) {
-  if (!file) return
-  
-  emit('processing-state', true)
-  error.value = ''
-  uploadProgress.value = 0
-  
+  if (!file) return;
+
+  emit("processing-state", true);
+  error.value = "";
+  uploadProgress.value = 0;
+
   try {
-    const formData = new FormData()
-    formData.append('apkgFile', file)
-    
-    const response = await axios.post('/api/upload', formData, {
+    const formData = new FormData();
+    formData.append("apkgFile", file);
+
+    const response = await axios.post(createApiUrl("/api/upload"), formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data",
       },
       onUploadProgress: (progressEvent) => {
         uploadProgress.value = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
-        )
-      }
-    })
-    
+        );
+      },
+    });
+
     if (response.data.success) {
-      emit('file-processed', response.data)
+      emit("file-processed", response.data);
     } else {
-      throw new Error(response.data.error || 'Processing failed')
+      throw new Error(response.data.error || "Processing failed");
     }
-    
   } catch (err) {
-    console.error('File processing error:', err)
-    error.value = err.response?.data?.error || err.message || 'Failed to process file'
+    console.error("File processing error:", err);
+    error.value = err.response?.data?.error || err.message || "Failed to process file";
   } finally {
-    emit('processing-state', false)
-    uploadProgress.value = 0
+    emit("processing-state", false);
+    uploadProgress.value = 0;
   }
 }
 
 function clearFile() {
-  selectedFile.value = null
-  error.value = ''
-  uploadProgress.value = 0
+  selectedFile.value = null;
+  error.value = "";
+  uploadProgress.value = 0;
 }
 </script>
 
 <template>
   <div class="file-upload-container">
-    <div 
+    <div
       ref="dropZoneRef"
       class="drop-zone"
-      :class="{ 
-        'drag-over': isOverDropZone || dragOver, 
-        'processing': props.isProcessing,
-        'has-file': selectedFile 
+      :class="{
+        'drag-over': isOverDropZone || dragOver,
+        processing: props.isProcessing,
+        'has-file': selectedFile,
       }"
     >
       <div class="drop-zone-content">
@@ -120,7 +124,7 @@ function clearFile() {
             <small>Supports Anki package files (.apkg) up to 100MB</small>
           </div>
         </div>
-        
+
         <!-- Processing state -->
         <div v-if="props.isProcessing" class="processing-state">
           <div class="spinner"></div>
@@ -130,18 +134,16 @@ function clearFile() {
           </div>
           <p>{{ uploadProgress }}% uploaded</p>
         </div>
-        
+
         <!-- File selected -->
         <div v-if="selectedFile && !props.isProcessing" class="file-selected">
           <div class="file-icon">✅</div>
           <h3>{{ selectedFile.name }}</h3>
           <p>{{ formatFileSize(selectedFile.size) }}</p>
-          <button @click="clearFile" class="clear-btn">
-            Choose Different File
-          </button>
+          <button @click="clearFile" class="clear-btn">Choose Different File</button>
         </div>
       </div>
-      
+
       <!-- Hidden file input -->
       <input
         type="file"
@@ -151,16 +153,16 @@ function clearFile() {
         style="display: none"
       />
     </div>
-    
+
     <!-- Browse button -->
-    <button 
+    <button
       v-if="!selectedFile && !props.isProcessing"
       @click="$refs.fileInput.click()"
       class="browse-btn"
     >
       Browse Files
     </button>
-    
+
     <!-- Error message -->
     <div v-if="error" class="error-message">
       <span class="error-icon">⚠️</span>
@@ -227,7 +229,8 @@ function clearFile() {
   margin-bottom: 1rem;
 }
 
-.upload-icon, .file-icon {
+.upload-icon,
+.file-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
@@ -258,8 +261,12 @@ function clearFile() {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .progress-bar {
@@ -289,7 +296,8 @@ function clearFile() {
   margin-bottom: 1rem;
 }
 
-.browse-btn, .clear-btn {
+.browse-btn,
+.clear-btn {
   background: linear-gradient(135deg, #4285f4, #34a853);
   color: white;
   border: none;
@@ -302,12 +310,14 @@ function clearFile() {
   margin-top: 1rem;
 }
 
-.browse-btn:hover, .clear-btn:hover {
+.browse-btn:hover,
+.clear-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
 }
 
-.browse-btn:active, .clear-btn:active {
+.browse-btn:active,
+.clear-btn:active {
   transform: translateY(0);
 }
 
@@ -340,12 +350,13 @@ function clearFile() {
     padding: 2rem 1rem;
     min-height: 150px;
   }
-  
+
   .upload-prompt h3 {
     font-size: 1.3rem;
   }
-  
-  .upload-icon, .file-icon {
+
+  .upload-icon,
+  .file-icon {
     font-size: 2.5rem;
   }
 }
@@ -355,12 +366,12 @@ function clearFile() {
 export default {
   methods: {
     formatFileSize(bytes) {
-      if (bytes === 0) return '0 Bytes'
-      const k = 1024
-      const sizes = ['Bytes', 'KB', 'MB', 'GB']
-      const i = Math.floor(Math.log(bytes) / Math.log(k))
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-    }
-  }
-}
+      if (bytes === 0) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+    },
+  },
+};
 </script>

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import axios from 'axios'
+import { createApiUrl } from "../config/api.js"
 
 const props = defineProps({
   cards: Array,
@@ -58,11 +59,11 @@ function prevPage() {
   }
 }
 
-async function exportToCSV() {
+async function exportToDocx() {
   isExporting.value = true
   
   try {
-    const response = await axios.post('/api/export-csv', {
+    const response = await axios.post(createApiUrl('/api/export-docx'), {
       cards: filteredCards.value,
       filename: props.filename
     }, {
@@ -75,8 +76,8 @@ async function exportToCSV() {
     link.href = url
     
     const exportFilename = props.filename ? 
-      props.filename.replace('.apkg', '_quizlet.csv') : 
-      'quizlet_export.csv'
+      props.filename.replace('.apkg', '_quizlet.docx') : 
+      'quizlet_export.docx'
     
     link.setAttribute('download', exportFilename)
     document.body.appendChild(link)
@@ -87,7 +88,7 @@ async function exportToCSV() {
     
   } catch (error) {
     console.error('Export error:', error)
-    alert('Failed to export CSV. Please try again.')
+    alert('Failed to export Word document. Please try again.')
   } finally {
     isExporting.value = false
   }
@@ -125,13 +126,13 @@ function clearSearch() {
         </div>
         
         <button 
-          @click="exportToCSV"
+          @click="exportToDocx"
           :disabled="isExporting || filteredCards.length === 0"
           class="export-btn"
         >
           <span v-if="isExporting" class="export-spinner"></span>
-          <span v-else class="export-icon">💾</span>
-          {{ isExporting ? 'Exporting...' : 'Export to CSV' }}
+          <span v-else class="export-icon">�</span>
+          {{ isExporting ? 'Exporting...' : 'Export to Word' }}
         </button>
       </div>
     </div>
@@ -223,13 +224,17 @@ function clearSearch() {
     <div class="export-help">
       <h3>📋 How to import to Quizlet:</h3>
       <ol>
-        <li>Click "Export to CSV" to download your converted file</li>
+        <li>Click "Export to Word" to download your converted file (.docx format)</li>
         <li>Go to <a href="https://quizlet.com" target="_blank" rel="noopener">Quizlet.com</a> and log in</li>
         <li>Click "Create" → "Study set"</li>
         <li>Click "Import from Word, Excel, Google Docs, etc."</li>
-        <li>Upload your downloaded CSV file</li>
+        <li>Upload your downloaded Word document (.docx file)</li>
+        <li>Quizlet will automatically detect the term-definition pairs</li>
         <li>Review and publish your study set</li>
       </ol>
+      <div class="import-note">
+        <strong>Note:</strong> The Word document contains your cards in multiple formats to ensure compatibility with Quizlet's import system.
+      </div>
     </div>
   </div>
 </template>
@@ -577,6 +582,20 @@ function clearSearch() {
 
 .export-help a:hover {
   text-decoration: underline;
+}
+
+.import-note {
+  background: rgba(66, 133, 244, 0.1);
+  border: 1px solid rgba(66, 133, 244, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.import-note strong {
+  color: white;
 }
 
 /* Responsive design */

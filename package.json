@@ -8,15 +8,21 @@
     "build": "vite build",
     "preview": "vite preview",
     "server": "node server/index.js",
+    "server:refactored": "node server/index-refactored.js",
     "dev:server": "nodemon server/index.js",
+    "dev:server:refactored": "nodemon server/index-refactored.js",
     "dev:full": "concurrently \"npm run dev\" \"npm run dev:server\"",
-    "start": "npm run build && concurrently \"npm run preview\" \"npm run server\""
+    "dev:full:refactored": "concurrently \"npm run dev\" \"npm run dev:server:refactored\"",
+    "start": "npm run build && concurrently \"npm run preview\" \"npm run server\"",
+    "deploy": "npm run build && gh-pages -d dist",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@vueuse/core": "^13.6.0",
     "axios": "^1.11.0",
     "compression": "^1.8.1",
     "cors": "^2.8.5",
+    "docx": "^9.5.1",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "jszip": "^3.10.1",
@@ -30,6 +36,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
     "concurrently": "^9.2.0",
+    "gh-pages": "^6.3.0",
     "nodemon": "^3.1.10",
     "vite": "^7.0.4"
   }
